@@ -10,7 +10,7 @@ public class DigitSum {
 
     public static void main(String[] args) {
         // Should print 15 (1 + 2 + 3 + 4 + 5) once digitSum is implemented.
-        System.out.println("digitSum(12345) = " + digitSum(12345));
+        System.out.println("digitSum(12345) = " + digitSum(-12345));
     }
 
     /**
@@ -21,7 +21,14 @@ public class DigitSum {
      * @return the sum of its decimal digits
      */
     public static int digitSum(int n) {
-        // TODO: complete
-        return 0;
+        if (n < 0) {
+            n = -n;
+        }
+        int res = 0;
+        while (n != 0) {
+            res += n % 10;
+            n = n / 10;
+        }
+        return res;
     }
 }
