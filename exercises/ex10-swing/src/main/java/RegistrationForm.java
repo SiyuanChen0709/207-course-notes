@@ -1,10 +1,7 @@
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
 /**
  * Exercise (Chapter 4: GUIs with Swing) — matching a layout.
@@ -32,13 +29,40 @@ public class RegistrationForm {
    * @return the form's root panel
    */
   public static JPanel buildForm() {
-    JPanel panel = new JPanel(new FlowLayout());
-    panel.add(new JLabel("First name:"));
-    panel.add(new JTextField(12));
-    panel.add(new JLabel("Last name:"));
-    panel.add(new JTextField(12));
-    panel.add(new JButton("Submit"));
-    panel.add(new JButton("Cancel"));
+    JPanel panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    JPanel firstNamePanel = new JPanel();
+    JPanel lastNamePanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
+    JTextField firstNameField = new JTextField(10);
+    JTextField lastNameField = new JTextField(10);
+    firstNamePanel.add(new JLabel("First name:"));
+    firstNamePanel.add(firstNameField);
+    lastNamePanel.add(new JLabel("Last name:"));
+    lastNamePanel.add(lastNameField);
+    JButton submit = new JButton("Submit");
+    submit.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            JOptionPane.showMessageDialog(null, "Hi " + firstName + " " + lastName);
+        }
+    });
+    buttonPanel.add(submit);
+    JButton cancel = new JButton("Cancel");
+    cancel.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            firstNameField.setText("");
+            lastNameField.setText("");
+        }
+      });
+    buttonPanel.add(cancel);
+    panel.add(firstNamePanel);
+    panel.add(lastNamePanel);
+    panel.add(buttonPanel);
+
     return panel;
   }
 
@@ -46,7 +70,7 @@ public class RegistrationForm {
   public static void main(String[] args) {
     SwingUtilities.invokeLater(
         () -> {
-          JFrame frame = new JFrame("Registration");
+          JFrame frame = new JFrame("Nested Panels Example");
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
           frame.setContentPane(buildForm());
           frame.pack();
